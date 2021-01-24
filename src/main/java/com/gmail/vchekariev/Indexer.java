@@ -60,7 +60,10 @@ public class Indexer implements Runnable {
         if (StringProcessor.getStopwords().contains(token))
             return null;
 
-        return token;
+        String noTags = StringProcessor.removeTags(token);
+        String cleanToken = StringProcessor.removeNumbers(noTags);
+
+        return cleanToken;
     }
 
 }

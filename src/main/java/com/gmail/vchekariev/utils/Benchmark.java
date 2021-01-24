@@ -6,6 +6,11 @@ import java.util.TreeMap;
 
 public class Benchmark {
 
+    public static final String TOTAL = "total";
+    public static final String READ_FILE_NAMES = "readFileNames";
+    public static final String INDEX_FILES = "indexFiles";
+    public static final String WRITE_TO_FILE = "writeToFile";
+
     private final Map<String, BenchmarkCounter> counters = new TreeMap<>();
 
     public void startTimer(String name) {

@@ -10,6 +10,7 @@ public class FileUtils {
 
     public static final String INPUT_PATH = "src/main/resources/datasets/aclImdb/data1";
     public static final String OUTPUT_PATH = "src/main/resources/output/";
+    public static final String OUTPUT_FILE = "tokenIndex.serialized";
 
     /**
      * Look for files matching an extension in a given folder

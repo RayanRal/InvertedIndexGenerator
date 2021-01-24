@@ -5,6 +5,7 @@ public class GenericDocument implements Comparable<GenericDocument> {
     private String filePath;
     private String fileName;
     private String text;
+    private static final String DELIMITER = "/";
 
     public String getFilePath() {
         return filePath;
@@ -29,15 +30,13 @@ public class GenericDocument implements Comparable<GenericDocument> {
     public GenericDocument(String filePath, String text) {
         this.filePath = filePath;
         this.text = text;
-        this.fileName = filePath.substring(filePath.lastIndexOf("\\")+1);
+        this.fileName = filePath.substring(filePath.lastIndexOf(DELIMITER)+1);
     }
 
     public String toString() {
         return getFilePath();
     }
 
-
-    @Override
     public int compareTo(GenericDocument o) {
         return CharSequence.compare(this.getFilePath(), o.getFilePath());
     }

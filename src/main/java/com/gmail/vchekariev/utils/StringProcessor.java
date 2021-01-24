@@ -11,21 +11,13 @@ public interface StringProcessor {
         return Set.of(stopwords.split(","));
     }
 
-    Pattern noTags = Pattern.compile("\\<.*?\\>");
-
     static String removeTags(String input) {
+        Pattern noTags = Pattern.compile("\\<.*?\\>");
         return noTags.matcher(input).replaceAll("");
     }
 
-    Pattern noEntities = Pattern.compile("\\&.*?\\;");
-
-    static String removeEntities(String input) {
-        return noEntities.matcher(input).replaceAll("");
-    }
-
-    Pattern noNumber = Pattern.compile("[^a-z|A-Z]");
-
-    static String noNumber(String input) {
+    static String removeNumbers(String input) {
+        Pattern noNumber = Pattern.compile("[^a-z|A-Z]");
         return noNumber.matcher(input).replaceAll("");
     }
 

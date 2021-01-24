@@ -10,10 +10,10 @@ import java.util.Map;
 public class IndexShower {
 
     public static void main(String[] args) throws ClassNotFoundException {
-        String filename = "map.ser";
-        Map<String, List<String>> tokenIndex = readIndex(FileUtils.OUTPUT_PATH + filename);
+        Map<String, List<String>> tokenIndex = readIndex(FileUtils.OUTPUT_PATH + FileUtils.OUTPUT_FILE);
         InvertedIndex index = new InvertedIndex(tokenIndex);
         System.out.println(index.getTopWords(20));
+        System.out.println(index.getFilesForToken("movie"));
     }
 
     private static Map<String, List<String>> readIndex(String inputPath) throws ClassNotFoundException {

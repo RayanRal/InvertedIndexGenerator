@@ -46,29 +46,6 @@ public class InvertedIndex {
         return new HashSet<>(tokenIndex.getOrDefault(token, new ArrayList<>()));
     }
 
-    /**
-     * Validate the index to make sure it holds the following properties for every term
-     * - The list of PostingList is not null
-     * - The list of PostingList contains only unique document id
-     *
-     * @return result of the validation
-     */
-    public boolean validate() {
-        Set<String> docSet = new HashSet<>();
-        for (String term : tokenIndex.keySet()) {
-            List<String> files = tokenIndex.get(term);
-            if (files == null) return false;
-            docSet.clear();
-            for (String file : files) {
-                if (docSet.contains(file))
-                    return false;
-                else
-                    docSet.add(file);
-            }
-        }
-        return true;
-    }
-
     public void writeToFile(String outputPath) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(outputPath))) {
             oos.writeObject(tokenIndex);

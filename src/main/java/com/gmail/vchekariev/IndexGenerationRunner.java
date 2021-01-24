@@ -17,13 +17,16 @@ public class IndexGenerationRunner {
 
     public static void main(String[] args) {
         Benchmark benchmark = new Benchmark();
-        benchmark.startTimer("total");
+        benchmark.startTimer(Benchmark.TOTAL);
 
+        benchmark.startTimer(Benchmark.READ_FILE_NAMES);
         Queue<String> filesToIndex = getFilesToIndex(args);
         if (filesToIndex == null) return;
+        benchmark.stopTimer(Benchmark.READ_FILE_NAMES);
 
         ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_INDEXER_THREADS);
 
+        benchmark.startTimer(Benchmark.INDEX_FILES);
         InvertedIndex index = new InvertedIndex();
         for (int x = 0; x < NUMBER_OF_INDEXER_THREADS; x++) {
             executorService.execute(new Indexer(filesToIndex, index));
@@ -42,15 +45,15 @@ public class IndexGenerationRunner {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        benchmark.stopTimer(Benchmark.INDEX_FILES);
         System.out.println(index.size());
         System.out.println(index.getTopWords(10));
 
         //Time to write the index to a file
-        benchmark.startTimer("writing-to-file");
-        String outputFileName = "map.ser";
-        index.writeToFile(FileUtils.OUTPUT_PATH + outputFileName);
-        benchmark.stopTimer("writing-to-file");
-        benchmark.stopTimer("total");
+        benchmark.startTimer(Benchmark.WRITE_TO_FILE);
+        index.writeToFile(FileUtils.OUTPUT_PATH + FileUtils.OUTPUT_FILE);
+        benchmark.stopTimer(Benchmark.WRITE_TO_FILE);
+        benchmark.stopTimer(Benchmark.TOTAL);
 
         System.out.println("Finished creating inverted index.");
 
