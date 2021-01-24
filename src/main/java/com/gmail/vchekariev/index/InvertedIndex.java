@@ -18,15 +18,15 @@ public class InvertedIndex {
         this.tokenIndex = tokenIndex;
     }
 
-    public boolean add(String token, String filename) {
+    public void add(String token, String filename) {
         if (token == null) {
-            return false;
+            return;
         }
-        synchronized (tokenIndex) {
-            tokenIndex.putIfAbsent(token, Collections.synchronizedList(new ArrayList<>()));
-            tokenIndex.get(token).add(filename);
-        }
-        return true;
+        tokenIndex.putIfAbsent(token, Collections.synchronizedList(new ArrayList<>()));
+        tokenIndex.computeIfPresent(token, (key, value) -> {
+            value.add(filename);
+            return value;
+        });
     }
 
     public int size() {

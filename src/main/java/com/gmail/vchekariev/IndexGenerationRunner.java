@@ -33,12 +33,6 @@ public class IndexGenerationRunner {
             executorService.execute(new Indexer(filesToIndex, index));
         }
 
-//         1 thread total - 152615
-//         2 thread total - 42728
-//         4 thread total - 25269
-//         8 thread total - 4063
-//        (something very unlinear, needs more measuring)
-
         // Wait till all files will be processed
         executorService.shutdown();
         try {
