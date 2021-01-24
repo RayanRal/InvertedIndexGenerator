@@ -1,6 +1,5 @@
-package com.gmail.vchekariev;
+package com.gmail.vchekariev.index;
 
-import com.gmail.vchekariev.index.InvertedIndex;
 import com.gmail.vchekariev.utils.StringProcessor;
 
 import java.io.IOException;

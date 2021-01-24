@@ -1,9 +1,9 @@
-package com.gmail.vchekariev;
+package com.gmail.vchekariev.index;
 
-public class GenericDocument implements Comparable<GenericDocument> {
+public class GenericDocument {
 
     private String filePath;
-    private String fileName;
+    private final String fileName;
     private String text;
     private static final String DELIMITER = "/";
 
@@ -31,14 +31,6 @@ public class GenericDocument implements Comparable<GenericDocument> {
         this.filePath = filePath;
         this.text = text;
         this.fileName = filePath.substring(filePath.lastIndexOf(DELIMITER)+1);
-    }
-
-    public String toString() {
-        return getFilePath();
-    }
-
-    public int compareTo(GenericDocument o) {
-        return CharSequence.compare(this.getFilePath(), o.getFilePath());
     }
 
 }

@@ -1,5 +1,6 @@
 package com.gmail.vchekariev;
 
+import com.gmail.vchekariev.index.Indexer;
 import com.gmail.vchekariev.index.InvertedIndex;
 import com.gmail.vchekariev.utils.Benchmark;
 import com.gmail.vchekariev.utils.FileUtils;
