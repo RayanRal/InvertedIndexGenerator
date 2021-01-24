@@ -1,7 +1,6 @@
 package com.gmail.vchekariev;
 
 import com.gmail.vchekariev.index.InvertedIndex;
-import com.gmail.vchekariev.index.InvertedIndexWrapper;
 import com.gmail.vchekariev.utils.Benchmark;
 import com.gmail.vchekariev.utils.FileUtils;
 
@@ -12,7 +11,7 @@ import java.util.concurrent.*;
 
 public class IndexGenerationRunner {
 
-    private static final int NUMBER_OF_INDEXER_THREADS = 8; //Property.getInt("numOfThreads");
+    private static final int NUMBER_OF_INDEXER_THREADS = 4; //Property.getInt("numOfThreads");
     private static final String DEFAULT_INPUT_DIR = FileUtils.INPUT_PATH;
     private static final String DEFAULT_EXTENSION = ".txt";
 
@@ -25,7 +24,7 @@ public class IndexGenerationRunner {
 
         ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_INDEXER_THREADS);
 
-        InvertedIndex index = new InvertedIndexWrapper();
+        InvertedIndex index = new InvertedIndex();
         for (int x = 0; x < NUMBER_OF_INDEXER_THREADS; x++) {
             executorService.execute(new Indexer(filesToIndex, index));
         }
@@ -45,18 +44,17 @@ public class IndexGenerationRunner {
         }
         System.out.println(index.size());
         System.out.println(index.getTopWords(10));
-//        System.out.println(index.keySet());
 
         //Time to write the index to a file
         benchmark.startTimer("writing-to-file");
-//		SPIMIReconciliation.reconciliate();
+        String outputFileName = "map.ser";
+        index.writeToFile(FileUtils.OUTPUT_PATH + outputFileName);
         benchmark.stopTimer("writing-to-file");
         benchmark.stopTimer("total");
 
-
-        // Display some statistics
         System.out.println("Finished creating inverted index.");
 
+        // Display some statistics
         benchmark.reportAll();
     }
 

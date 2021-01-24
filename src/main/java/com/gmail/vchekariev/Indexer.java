@@ -1,8 +1,7 @@
 package com.gmail.vchekariev;
 
 import com.gmail.vchekariev.index.InvertedIndex;
-import com.gmail.vchekariev.index.InvertedIndexWrapper;
-import com.gmail.vchekariev.utils.StopWordRemover;
+import com.gmail.vchekariev.utils.StringProcessor;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,7 +12,7 @@ import java.util.StringTokenizer;
 
 public class Indexer implements Runnable {
 
-    private InvertedIndex index;
+    private final InvertedIndex index;
     private final Queue<String> filesToIndex;
 
     public Indexer(Queue<String> filesToIndex, InvertedIndex index) {
@@ -25,10 +24,12 @@ public class Indexer implements Runnable {
         System.out.println("Indexer started");
         String fileName = filesToIndex.poll();
         while (fileName != null) {
-            GenericDocument doc = readFile(fileName);
-//            System.out.println("Document received " + doc.getFileName());
-            processDocument(doc);
-//            CorpusFactory.getCorpus().addArticle(d);
+            try {
+                GenericDocument doc = readFile(fileName);
+                processDocument(doc);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             fileName = filesToIndex.poll();
         }
     }
@@ -45,14 +46,9 @@ public class Indexer implements Runnable {
         }
     }
 
-    private GenericDocument readFile(String filename) {
-        try {
-            String text = Files.readString(Paths.get(filename));
-            return new GenericDocument(filename, text);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    private GenericDocument readFile(String filename) throws IOException {
+        String text = Files.readString(Paths.get(filename));
+        return new GenericDocument(filename, text);
     }
 
     public String processToken(String token) {
@@ -61,7 +57,7 @@ public class Indexer implements Runnable {
         if (token.isEmpty())
             return null;
 
-        if (StopWordRemover.getStopwords().contains(token))
+        if (StringProcessor.getStopwords().contains(token))
             return null;
 
         return token;

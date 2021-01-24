@@ -2,15 +2,16 @@ package com.gmail.vchekariev;
 
 public class GenericDocument implements Comparable<GenericDocument> {
 
+    private String filePath;
     private String fileName;
     private String text;
 
-    public String getFileName() {
-        return fileName;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public String getText() {
@@ -21,19 +22,24 @@ public class GenericDocument implements Comparable<GenericDocument> {
         this.text = text;
     }
 
-    public GenericDocument(String fileName, String text) {
-        this.fileName = fileName;
+    public String getFileName() {
+        return fileName;
+    }
+
+    public GenericDocument(String filePath, String text) {
+        this.filePath = filePath;
         this.text = text;
+        this.fileName = filePath.substring(filePath.lastIndexOf("\\")+1);
     }
 
     public String toString() {
-        return getFileName();
+        return getFilePath();
     }
 
 
     @Override
     public int compareTo(GenericDocument o) {
-        return CharSequence.compare(this.getFileName(), o.getFileName());
+        return CharSequence.compare(this.getFilePath(), o.getFilePath());
     }
 
 }
